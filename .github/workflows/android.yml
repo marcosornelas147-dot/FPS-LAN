@@ -50,9 +50,10 @@ jobs:
           PY
       - name: Export APK
         run: |
+          adb start-server
           mkdir -p build
-          godot --headless --path . --editor --quit
-          godot --headless --path . --export-debug Android build/FPS-LAN.apk
+          godot --headless --path . --editor --quit --verbose
+          godot --headless --path . --export-debug Android build/FPS-LAN.apk --verbose
       - uses: actions/upload-artifact@v4
         with:
           name: FPS-LAN-APK
