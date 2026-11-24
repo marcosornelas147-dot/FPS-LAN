@@ -30,7 +30,7 @@ jobs:
       - name: Configure Android SDK
         run: |
           mkdir -p ~/.config/godot
-          printf '[gd_resource type="EditorSettings" format=3]\\n[resource]\\nexport/android/android_sdk_path = "%s"\\nexport/android/java_sdk_path = "%s"\\n' "$ANDROID_HOME" "$JAVA_HOME" > ~/.config/godot/editor_settings-4.tres
+          printf '[gd_resource type="EditorSettings" format=3]\n[resource]\nexport/android/android_sdk_path = "%s"\nexport/android/java_sdk_path = "%s"\n' "$ANDROID_HOME" "$JAVA_HOME" > ~/.config/godot/editor_settings-4.tres
       - name: Create Android debug keystore
         run: |
           keytool -genkeypair -v -keystore "$RUNNER_TEMP/debug.keystore" -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
@@ -44,7 +44,7 @@ jobs:
               'keystore/debug_user="androiddebugkey"',
               'keystore/debug_password="android"',
           ]
-          open(p, "w").write("\\n".join(lines) + "\\n")
+          open(p, "w").write("\n".join(lines) + "\n")
           PY
       - name: Export APK
         run: |
