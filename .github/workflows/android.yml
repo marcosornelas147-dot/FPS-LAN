@@ -40,7 +40,6 @@ jobs:
           GODOT_ANDROID_KEYSTORE_DEBUG_USER: androiddebugkey
           GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD: android
         run: |
-          adb start-server
           mkdir -p build
           godot --headless --path . --editor --quit --verbose
           godot --headless --path . --export-debug Android build/FPS-LAN.apk --verbose
