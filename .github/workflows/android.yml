@@ -34,7 +34,11 @@ jobs:
       - name: Create Android debug keystore
         run: |
           keytool -genkeypair -v -keystore "$RUNNER_TEMP/debug.keystore" -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
-          sed -i '/package\/signed=true/a keystore/debug="'"$RUNNER_TEMP"'\/debug.keystore"\nkeystore/debug_user="androiddebugkey"\nkeystore/debug_password="android"' export_presets.cfg
+          python - <<'PY2'
+p='export_presets.cfg'
+s=open(p).read().replace('package/signed=true', 'package/signed=true\nkeystore/debug='+__import__('os').environ['RUNNER_TEMP']+'/debug.keystore\nkeystore/debug_user=androiddebugkey\nkeystore/debug_password=android', 1)
+open(p,'w').write(s)
+PY2
       - name: Export APK
         run: |
           mkdir -p build
