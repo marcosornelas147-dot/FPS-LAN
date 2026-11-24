@@ -34,21 +34,11 @@ jobs:
       - name: Create Android debug keystore
         run: |
           keytool -genkeypair -v -keystore "$RUNNER_TEMP/debug.keystore" -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
-          python - <<'PY'
-          import os
-          p = "export_presets.cfg"
-          lines = open(p).read().splitlines()
-          i = lines.index("package/signed=true")
-          lines[i+1:i+1] = [
-              'keystore/debug="' + os.environ["RUNNER_TEMP"] + '/debug.keystore"',
-              'keystore/debug_user="androiddebugkey"',
-              'keystore/debug_password="android"',
-          ]
-          open(p, "w").write(chr(10).join(lines) + chr(10))
-          print("Preset after signing setup:")
-          print(open(p).read())
-          PY
       - name: Export APK
+        env:
+          GODOT_ANDROID_KEYSTORE_DEBUG_PATH: ${{ runner.temp }}/debug.keystore
+          GODOT_ANDROID_KEYSTORE_DEBUG_USER: androiddebugkey
+          GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD: android
         run: |
           adb start-server
           mkdir -p build
