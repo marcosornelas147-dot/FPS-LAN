@@ -1,6 +1,7 @@
 config_version=5
 [application]
 config/name="FPS LAN"
+config/icon="res://cover.svg"
 run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 [display]

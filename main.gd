@@ -13,7 +13,34 @@ func _ready():
 	_build_world()
 	_build_player()
 	_build_hud()
+	_build_cover()
 	if not OS.has_feature("mobile"): Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+
+func _build_cover():
+	var cover_layer := CanvasLayer.new()
+	cover_layer.layer = 20
+	add_child(cover_layer)
+	var root := Control.new()
+	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	cover_layer.add_child(root)
+	var art := TextureRect.new()
+	art.texture = load("res://cover.svg")
+	art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	root.add_child(art)
+	var start := Button.new()
+	start.text = "TOCAR PARA JOGAR"
+	start.anchor_left = 0.18
+	start.anchor_right = 0.82
+	start.anchor_top = 0.84
+	start.anchor_bottom = 0.94
+	start.add_theme_font_size_override("font_size", 26)
+	start.add_theme_color_override("font_color", Color.WHITE)
+	start.add_theme_color_override("font_hover_color", Color(1, 0.35, 0.35))
+	root.add_child(start)
+	start.pressed.connect(func(): cover_layer.queue_free())
 
 func _build_world():
 	var env := WorldEnvironment.new()
